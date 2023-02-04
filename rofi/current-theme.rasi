@@ -1,0 +1,76 @@
+* {
+  bg: #36333Ab0;
+  bg-alt: #21252b;
+
+  fg: #FFFFFF;
+  fg-alt: #828791;
+
+  /* accent-color: #5C6370; */
+  accent-color: #1A1B23;
+
+  fg-text: #57c7FF;
+
+  background-color: transparent;
+
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
+window {
+  width: 35%;
+  /*
+  border-color: #3477ad; */
+}
+
+element {
+  padding: 8 8;
+  text-color: @fg-alt;
+}
+
+element selected {
+  background-color: @accent-color;
+  text-color: @fg-text;
+  /* border-radius: 15px; */
+}
+
+element-text {
+  text-color: inherit;
+  vertical-align: 0.5;
+  highlight: none;
+}
+
+element-icon {
+  size: 25;
+  padding: 0 10 0 10;
+}
+
+entry {
+  background-color: @bg-alt;
+  padding: 12;
+  text-color: @fg-text;
+}
+
+inputbar {
+  children: [prompt, entry];
+}
+
+listview {
+  padding: 0 0;
+  background-color: @bg;
+  columns: 1;
+  lines: 8;
+}
+
+mainbox {
+  background-color: @bg;
+  children: [inputbar, listview];
+}
+
+prompt {
+  background-color: @bg-alt;
+  enabled: true;
+  padding: 12 0 0 12;
+  text-color: @fg;
+}
