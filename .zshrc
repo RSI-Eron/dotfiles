@@ -119,3 +119,4 @@ alias findus="sudo find / -name"
 
 export PATH=/usr/local/go/bin:$PATH
 export PATH=$HOME/.emacs.d/bin:$PATH
+export PATH=$HOME/go/bin:$PATH

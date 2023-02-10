@@ -86,3 +86,30 @@
 ;; Workaround for cpp-mode error (void-function lsp--matching-clients?)
 (after! lsp-mode
   (advice-remove #'lsp #'+lsp-dont-prompt-to-install-servers-maybe-a))
+
+
+;; Enable cursor shining
+(beacon-mode 1)
+
+
+;; =============================== ORG MODE ============================
+;; Disable company for org-mode
+(defun disable-company-on-org ()
+  (company-mode -1))
+(add-hook 'org-mode-hook #'disable-company-on-org)
+
+
+;; Enable auto tangling at save time for org files (Redirection of code blocks to file)
+;; Add `#+auto_tangle: t' at the top of org file to use this feature
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode)
+  :config (setq org-auto-tangle-default t))
+
+
+(after! org
+  (setq org-hide-emphasis-markers t)
+  ;;(setq org-id-extra-files (directory-files-recursively org-roam-directory "\.org$"))
+  )
+
+;; =====================================================================
