@@ -112,4 +112,99 @@
   ;;(setq org-id-extra-files (directory-files-recursively org-roam-directory "\.org$"))
   )
 
+
+(setq org-id-extra-files (directory-files-recursively "~/org/roam/" "org"))
+
+;; replaced with ox-hugo partial template
+;; Enable backlinks export
+;; source:
+;; https://github.com/org-roam/org-roam/blob/4f82ad98697f5524dd92972219f6049bb50c7f11/doc/org_export.md
+;; https://seds.nl/notes/ox_hugo_export_all_roam_to_hugo/
+(require 'org-roam)
+(defun jethrokuan/org-roam--backlinks-list (file)
+  ;; (if (org-roam--org-roam-file-p file)
+  (if (org-roam-file-p file)
+      (--reduce-from
+       (concat acc (format "- [[file:%s][%s]]\n"
+                           (file-relative-name (car it) org-roam-directory)
+                                ;; (org-roam--get-title-or-slug (car it))))
+                                (org-roam-db--get-title (car it))))
+       "" (org-roam-sql [:select [file-from] :from file-links :where (= file-to $s1)] file))
+    ""))
+
+(defun jethrokuan/org-export-preprocessor (backend)
+  (let ((links (jethrokuan/org-roam--backlinks-list (buffer-file-name))))
+    (unless (string= links "")
+      (save-excursion
+      	(goto-char (point-max))
+      	(insert (concat "\n* Backlinks\n") links)))))
+
+(add-hook 'org-export-before-processing-hook 'jethrokuan/org-export-preprocessor)
+
 ;; =====================================================================
+
+
+;; ================================ HUGO ===============================
+
+;; Persist screenshot basename history through sessions
+(defvar heron/hugo-screenshot-history nil)
+(eval-after-load "savehist"
+  '(add-to-list 'savehist-additional-variables 'heron/hugo-screenshot-history))
+
+(defvar heron/flameshot-default-directory "~/dm/dm1/static/images/" "Default directory to store my screenshots")
+
+(defun hugo-screenshot (name)
+  "Take a screenshot, save it to a folder named after the current buffer."
+
+  (interactive
+   (list (read-from-minibuffer "Screenshot name: " (car heron/hugo-screenshot-history) nil nil 'heron/hugo-screenshot-history)))
+
+  ;; Add trailing '/' if it is not present
+  (setq subdir heron/flameshot-default-directory)
+  (if (not (string= (substring subdir -1) "/"))
+      (setq subdir (concat subdir "/"))
+    )
+
+  ;; Create folder with current filename without extension
+  (string-match "\\([^/]+?\\)\\(\\.[a-zA-Z]*\\)?$" buffer-file-name)
+  (setq imagedir (concat (match-string 1 buffer-file-name) "/"))
+  (setq subdir (concat subdir imagedir))
+  (make-directory subdir :parents)
+
+  ;; Search for the last screenshot
+  (setq files-list (directory-files subdir nil (concat name "[0-9]+.png$")))
+  (setq greatest-number 0)
+  (cl-loop for file in files-list do
+           (string-match "\\([0-9]+\\)\\.png$" file)
+           (setq file-number (string-to-number (match-string 1 file)))
+           (if (> file-number greatest-number)
+               (setq greatest-number file-number)
+               )
+           )
+
+
+  (setq screenshot-filename-base (concat name (number-to-string (+ 1 greatest-number))))
+  (shell-command (concat "flameshot gui --raw > " subdir screenshot-filename-base ".png"))
+  (message (concat "File saved at " subdir screenshot-filename-base ".png"))
+
+  ;; Inserting tag for Hugo
+  (insert (concat "![" screenshot-filename-base "](" "/images/" imagedir screenshot-filename-base ".png" ")\n"))
+  )
+
+(map! :leader "Ss" #'hugo-screenshot)
+
+(defun heron/set-flameshot-directory (path)
+  "Set flameshot default saving directory"
+  (interactive "DSet flameshot directory:")
+  (setq heron/flameshot-default-directory path)
+    )
+
+(map! :leader "Sd" #'heron/set-flameshot-directory)
+
+(defun heron/print-flameshot-directory ()
+  "Print the flameshot saving directory"
+  (interactive)
+  (message heron/flameshot-default-directory)
+    )
+
+(map! :leader "Sp" #'heron/print-flameshot-directory)
