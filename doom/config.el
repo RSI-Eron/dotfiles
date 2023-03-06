@@ -184,11 +184,22 @@
 
 
   (setq screenshot-filename-base (concat name (number-to-string (+ 1 greatest-number))))
-  (shell-command (concat "flameshot gui --raw > " subdir screenshot-filename-base ".png"))
-  (message (concat "File saved at " subdir screenshot-filename-base ".png"))
+  (setq stderr-string (shell-command-to-string (concat "flameshot gui --raw 1> " subdir screenshot-filename-base ".png")))
 
-  ;; Inserting tag for Hugo
-  (insert (concat "![" screenshot-filename-base "](" "/images/" imagedir screenshot-filename-base ".png" ")\n"))
+  (if (string-empty-p stderr-string)
+      ;;IF
+      (progn
+       (message (concat "File saved at " subdir screenshot-filename-base ".png"))
+       ;; Inserting tag for Hugo
+       (insert (concat "![" screenshot-filename-base "](" "/images/" imagedir screenshot-filename-base ".png" ")\n"))
+      )
+
+      ;; ELSE
+       (progn
+        (delete-file (concat subdir screenshot-filename-base ".png"))
+        (message (concat "File was not saved: " stderr-string))
+       )
+       )
   )
 
 (map! :leader "Ss" #'hugo-screenshot)
