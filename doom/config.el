@@ -153,7 +153,7 @@
 
 (defvar heron/flameshot-default-directory "~/dm/dm1/static/images/" "Default directory to store my screenshots")
 
-(defun hugo-screenshot (name)
+(defun heron/hugo-screenshot (name)
   "Take a screenshot, save it to a folder named after the current buffer."
 
   (interactive
@@ -202,7 +202,7 @@
        )
   )
 
-(map! :leader "Ss" #'hugo-screenshot)
+(map! :leader "Ss" #'heron/hugo-screenshot)
 
 (defun heron/set-flameshot-directory (path)
   "Set flameshot default saving directory"
@@ -219,3 +219,42 @@
     )
 
 (map! :leader "Sp" #'heron/print-flameshot-directory)
+
+
+(defvar heron/org-resource-directory "~/cours/resources/")
+(defun heron/org-screenshot (name)
+  "Take a screenshot, save it to a folder named after the current buffer."
+
+  (interactive "sScreenshot name: ")
+
+  ;; Add trailing '/' if it is not present
+  (setq subdir heron/org-resource-directory)
+  (if (not (string= (substring subdir -1) "/"))
+      (setq subdir (concat subdir "/"))
+    )
+
+  (setq screenshot-filepath-full (concat subdir name ".png"))
+  (if (file-exists-p screenshot-filepath-full)
+  (message (concat "File " screenshot-filepath-full " already exist !"))
+   (progn
+     (setq stderr-string (shell-command-to-string (concat "flameshot gui --raw 1> " screenshot-filepath-full)))
+
+     (if (string-empty-p stderr-string)
+         ;;IF
+         (progn
+           (message (concat "File saved at " screenshot-filepath-full))
+           ;; Inserting tag for org
+           (insert (concat "#+ATTR_HTML: :width 600px\n[[" screenshot-filepath-full "]]\n"))
+           )
+
+       ;; ELSE
+       (progn
+         (delete-file screenshot-filepath-full)
+         (message (concat "File was not saved: " stderr-string))
+         )
+       )
+     )
+   )
+  )
+
+(map! :leader "So" #'heron/org-screenshot)
