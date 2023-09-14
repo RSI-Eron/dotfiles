@@ -72,6 +72,7 @@ isort
 pipenv
 shellcheck
 tidy
+libvterm-dev
 
 
 ### NPM dependecies
@@ -185,5 +186,8 @@ sudo make install
 
 
 ## Polybar
+
+### Dependencies
+flameshot
 
 ### Install from apt repo
