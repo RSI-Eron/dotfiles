@@ -3,7 +3,7 @@
 HOME_FOLDER="$HOME"
 INSTALL_FOLDER="install"
 emacs_version=29
-emacs_dl="git@github.com:emacs-mirror/emacs.git"
+emacs_dl="https://github.com/emacs-mirror/emacs.git"
 kitty_dl="https://github.com/kovidgoyal/kitty"
 zsh_dl=""
 omz_dl="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
@@ -233,7 +233,7 @@ read -r ignore
 sudo apt -qq install -y -- $APT_DEP
 sudo npm i -g $NPM_DEP
 
-sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED 2>/dev/null/
+sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED 2>/dev/null
 sudo pip3 install $PIP_DEP # venv ? uh
 
 mkdir -p -- "$HOME_FOLDER/$INSTALL_FOLDER"
