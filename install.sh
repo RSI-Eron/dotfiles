@@ -31,7 +31,7 @@ polybar Polybar on
 sudo apt update
 if ! command -v dialog &>/dev/null ; then
     echo "Installing dialog"
-    sudo apt install dialog
+    sudo apt install dialog -y
 fi
 
 NPM_DEP=
@@ -83,7 +83,7 @@ emacs () {
     echo "Building Emacs $emacs_version"
     git clone "$emacs_dl" emacs
     cd emacs || exit 1
-
+    git switch "emacs-$emacs_version"
     chmod +x autogen.sh
     ./autogen.sh
     ./configure --with-cairo --with-xwidgets --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils  --with-json --with-png --with-jpeg --with-modules --with-gnutls --with-imagemagick
@@ -111,6 +111,10 @@ dep_kitty () {
 }
 
 kitty () {
+    wget -O go.tar.gz https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+    rm -rf /usr/local/go && tar -C /usr/local -xzf go.tar.gz
+    export PATH=$PATH:/usr/local/go/bin
+
     echo "Building Kitty"
     git clone "$kitty_dl" kitty
     cd kitty || exit 1
@@ -127,7 +131,7 @@ dep_zsh () {
 
 zsh () {
     echo "Building zsh"
-    sudo apt install zsh
+    sudo apt install zsh -y
 }
 
 dep_omz () {
@@ -135,7 +139,8 @@ dep_omz () {
     add_man_dep "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
 https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
 https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
-https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"
+https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+"
 }
 
 omz () {
@@ -196,7 +201,7 @@ https://fontawesome.com/v5/docs/desktop/"
 
 polybar () {
     echo "Building Flameshot"
-    sudo apt install polybar
+    sudo apt install polybar -y
 }
 
 

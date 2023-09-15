@@ -106,7 +106,8 @@ libpython3-dev
 librsync-dev
 libxxhash-dev
 
-
+### Other
+Go
 
 ### Commands
 git clone https://github.com/kovidgoyal/kitty && cd kitty
