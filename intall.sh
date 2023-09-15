@@ -28,6 +28,7 @@ rofi Rofi on
 polybar Polybar on
 "
 
+sudo apt update
 if ! command -v dialog &>/dev/null ; then
     echo "Installing dialog"
     sudo apt install dialog
@@ -101,7 +102,7 @@ doom () {
     echo "Building Doom Emacs"
     rm -rf "$HOME/.emacs.d/"
     mkdir -p -- "$HOME/org/roam"
-    git clone --depth 1 "$emacs_dl" "$HOME/.config/emacs"
+    git clone --depth 1 "$doom_dl" "$HOME/.config/emacs"
     "$HOME/.config/emacs/bin/doom/install" --env
 }
 
@@ -190,7 +191,7 @@ rofi () {
 dep_polybar () {
     add_apt_dep "flameshot"
     add_man_dep "https://fontawesome.com/v6/docs/desktop/
-https://fontawesome.com/5v/docs/desktop/"
+https://fontawesome.com/v5/docs/desktop/"
 }
 
 polybar () {
@@ -231,6 +232,8 @@ read -r ignore
 
 sudo apt -qq install -y -- $APT_DEP
 sudo npm i -g $NPM_DEP
+
+sudo rm -f /usr/lib/python3.*/EXTERNALLY-MANAGED 2>/dev/null/
 sudo pip3 install $PIP_DEP # venv ? uh
 
 mkdir -p -- "$HOME_FOLDER/$INSTALL_FOLDER"
