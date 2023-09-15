@@ -20,7 +20,7 @@ Mettre en variable $HOME/.config
 ## Emacs
 
 ### Dependencies (installable via 'apt install <name>' ou 'apt build-dep emacs')
-build-essentials
+build-essential
 autoconf
 texinfo
 libgtk-3-dev
@@ -49,12 +49,6 @@ sudo make install
 
 
 
-## ZSH + OhMyZSH + p10k
-
-## Dependencies 
-
-### Commands
-ln -s ~/.config/.zshrc ~/.zshrc
 
 ## Doom
 
@@ -98,7 +92,7 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
 
 ### Dependencies
 libxkbcommon-x11-dev
-libx11-xcb-devA
+libx11-xcb-dev
 libdbus-1-dev
 libxcursor-dev
 libxrandr-dev
@@ -112,25 +106,17 @@ libpython3-dev
 librsync-dev
 libxxhash-dev
 
-python
-harfbuzz
-zlib
-libpng
-liblcms2
-librsync
-openssl
-freetype
-fontconfig
-libcanberra
 
 
 ### Commands
 git clone https://github.com/kovidgoyal/kitty && cd kitty
 make -j$(nproc)
 sudo ln -s kitty/launcher/kitty /usr/bin/
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/kitty 50
+sudo update-alternatives --set x-terminal-emulator /usr/bin/kitty
 
 
-## zsh + Oh My Zsh!
+## ZSH + OhMyZSH + p10k
 
 ### Dependecies
 neofetch
@@ -144,6 +130,8 @@ https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%2
 ### Commands
 sudo apt install zsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+ln -s ~/.config/.zshrc ~/.zshrc
 
 
 
@@ -189,5 +177,9 @@ sudo make install
 
 ### Dependencies
 flameshot
+
+### Manual dependencies
+https://fontawesome.com/v6/docs/desktop/
+https://fontawesome.com/5v/docs/desktop/
 
 ### Install from apt repo
