@@ -112,7 +112,7 @@ dep_kitty () {
 
 kitty () {
     wget -O go.tar.gz https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
-    rm -rf /usr/local/go && tar -C /usr/local -xzf go.tar.gz
+    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
     export PATH=$PATH:/usr/local/go/bin
 
     echo "Building Kitty"
@@ -170,7 +170,7 @@ dep_i3 () {
 i3 () {
     echo "Building i3"
     wget -O i3.zip -- "$i3_dl"
-    unzip i3.zip
+    unzip i3.zip -d i3
     cd i3 || exit 1
     meson setup --buildtype=release build
     ninja -C build install
@@ -184,7 +184,7 @@ dep_rofi () {
 rofi () {
     echo "Building Rofi"
     wget -O rofi.zip -- "$rofi_dl"
-    unzip rofi.zip
+    unzip rofi.zip -d rofi
     mkdir rofi/build
     cd rofi/build || exit 1
     ../configure
