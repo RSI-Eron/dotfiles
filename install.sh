@@ -76,7 +76,7 @@ add_man_dep() {
 }
 
 dep_emacs () {
-    add_apt_dep "git build-essential autoconf texinfo libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-12-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev libsystemd-dev libtree-sitter-dev libmagickcore-dev libmagick++-dev libmagickwand-dev"
+    add_apt_dep "git libacl1-dev build-essential autoconf texinfo libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-12-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev libsystemd-dev libtree-sitter-dev libmagickcore-dev libmagick++-dev libmagickwand-dev"
 }
 
 emacs () {
@@ -95,7 +95,7 @@ emacs () {
 dep_doom () {
     add_apt_dep "git ripgrep fd-find glslang-tools default-jre default-jdk graphviz isort pipenv shellcheck tidy libvterm-dev"
     add_npm_dep "marked markdownlint stylelint js-beautify"
-    add_pip_dep "nose pytest"
+    add_pip_dep "nose pytest pyright"
 }
 
 doom () {

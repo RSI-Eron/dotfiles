@@ -59,7 +59,8 @@ bindsym --release Print exec --no-startup-id mkdir -p $HOME/screenshots && impor
 # i3lock shortcut
 bindsym $MOD+SHIFT+x exec i3lock -c 000000
 
-
+# Set brightness to 24000 in case screen brightness reach 0
+bindsym $MOD+SHIFT+b exec --no-startup-id echo "24000" > /sys/class/backlight/intel_backlight/brightness
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
