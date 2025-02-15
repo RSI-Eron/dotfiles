@@ -10,8 +10,8 @@ omz_dl="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.s
 p10k_dl="https://github.com/romkatv/powerlevel10k.git"
 doom_dl="https://github.com/doomemacs/doomemacs"
 picom_dl="https://github.com/yshui/picom.git"
-i3_dl="https://github.com/i3/i3/archive/refs/tags/4.22.zip"
-rofi_dl="https://github.com/davatorium/rofi/archive/refs/tags/1.7.5.zip"
+i3_dl="https://github.com/i3/i3/archive/refs/tags/4.24.zip"
+rofi_dl="https://github.com/davatorium/rofi/releases/download/1.7.8/rofi-1.7.8.tar.gz"
 polybar_dl=""
 
 # If a package depends on another one, put it lower in the list so the dependency is process before.
@@ -107,11 +107,12 @@ doom () {
 }
 
 dep_kitty () {
-    add_apt_dep "git libxkbcommon-x11-dev libx11-xcb-dev libdbus-1-dev libxcursor-dev libxrandr-dev libxi-dev libxinerama-dev libgl1-mesa-dev libfontconfig-dev liblcms2-dev libssl-dev libpython3-dev librsync-dev libxxhash-dev"
+    add_apt_dep "git libxkbcommon-x11-dev libx11-xcb-dev libdbus-1-dev libxcursor-dev libxrandr-dev libxi-dev libxinerama-dev libgl1-mesa-dev libfontconfig-dev liblcms2-dev libssl-dev libpython3-dev librsync-dev libxxhash-dev libsimde-dev"
+    add_man_dep "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/NerdFontsSymbolsOnly.zip"
 }
 
 kitty () {
-    wget -O go.tar.gz https://go.dev/dl/go1.21.1.linux-amd64.tar.gz
+    wget -O go.tar.gz https://go.dev/dl/go1.24.0.linux-amd64.tar.gz
     sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz
     export PATH=$PATH:/usr/local/go/bin
 
@@ -164,7 +165,7 @@ picom () {
 }
 
 dep_i3 () {
-    add_apt_dep "unzip dh-autoreconf libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-shape0 libxcb-shape0-dev i3lock"
+    add_apt_dep "unzip dh-autoreconf libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-shape0 libxcb-shape0-dev i3lock feh"
 }
 
 i3 () {
@@ -183,8 +184,8 @@ dep_rofi () {
 
 rofi () {
     echo "Building Rofi"
-    wget -O rofi.zip -- "$rofi_dl"
-    unzip rofi.zip -d rofi
+    wget -O rofi.tar.gz -- "$rofi_dl"
+    mkdir rofi && tar xf rofi.tar.gz --strip-components=1 -C rofi
     mkdir rofi/build
     cd rofi/build || exit 1
     ../configure
@@ -200,7 +201,7 @@ https://fontawesome.com/v5/docs/desktop/"
 }
 
 polybar () {
-    echo "Building Flameshot"
+    echo "Building Polybar"
     sudo apt install polybar -y
 }
 

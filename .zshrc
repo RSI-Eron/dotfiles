@@ -113,6 +113,7 @@ alias gppp="g++ -Wall -Wextra -Werror -std=c++20"
 alias tag="git tag -a -m \"tag\""
 alias hist="history | grep"
 alias findus="sudo find / -name"
+alias ssource="source ~/.zshrc"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -120,3 +121,4 @@ alias findus="sudo find / -name"
 export PATH=/usr/local/go/bin:$PATH
 export PATH=$HOME/.emacs.d/bin:$PATH
 export PATH=$HOME/go/bin:$PATH
+export PATH=$HOME/.config/emacs/bin:$PATH
